@@ -25,11 +25,11 @@ class DetailTableViewController: UIViewController, Notifier, URLSessionTaskDeleg
         DetailTable.delegate = self
         DetailTable.dataSource = self
         if (detailItem != nil) {
-            let objectHeader = FUIObjectHeader() 
-            //        objectHeader.detailImageView.image = #imageLiteral(resourceName: "ProfilePic")
+            guard let currencyCode = detailItem.currencyCode else { return }
             
+            let objectHeader = FUIObjectHeader()
             objectHeader.headlineLabel.text = detailItem.name
-            objectHeader.subheadlineLabel.text = "\(detailItem.price!.toString()) \(String(describing: detailItem.currencyCode))"
+            objectHeader.subheadlineLabel.text = "\(detailItem.price!.toString()) \(currencyCode)"
             objectHeader.footnoteLabel.text = detailItem.categoryName
             objectHeader.descriptionLabel.text = detailItem.longDescription
             
