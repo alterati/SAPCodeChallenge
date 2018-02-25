@@ -18,10 +18,9 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, UITableV
     private var products = [MyPrefixProduct]()
     private var activityIndicator: UIActivityIndicatorView!
     private let refreshControl = UIRefreshControl()
+    private var kpiHeader: FUIKPIHeader!
     
-    
-    var kpiHeader: FUIKPIHeader!
-
+    let objectCellId = "ProductCellID"
     
     func initialize(oDataModel: ODataModel) {
         self.oDataModel = oDataModel
@@ -30,18 +29,8 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, UITableV
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         initExampleData()
-        HomeTableView.dataSource = self
-        HomeTableView.delegate = self
-        
-        HomeTableView.estimatedRowHeight = 98
-        HomeTableView.rowHeight = UITableViewAutomaticDimension
-        HomeTableView.backgroundColor = UIColor.preferredFioriColor(forStyle: .backgroundBase)
-        HomeTableView.separatorStyle = .none
-        HomeTableView.tableHeaderView = kpiHeader
-
-        
-        super.viewDidLoad()
         activityIndicator = initActivityIndicator()
         activityIndicator.center = view.center
         view.addSubview(activityIndicator)
@@ -53,9 +42,25 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, UITableV
                 self.loadData()
             }
         }
+        
+        self.configureTableView()
+    }
+    
+    private func configureTableView() {
+        HomeTableView.backgroundColor = UIColor.preferredFioriColor(forStyle: .backgroundBase)
+        HomeTableView.separatorStyle = .none
+        HomeTableView.tableHeaderView = kpiHeader
+        HomeTableView.estimatedRowHeight = 80
+        HomeTableView.rowHeight = UITableViewAutomaticDimension
+        HomeTableView.register(FUIObjectTableViewCell.self, forCellReuseIdentifier: objectCellId)
+        
         HomeTableView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(refreshOfflineData(_:)), for: .valueChanged)
+        
+        HomeTableView.dataSource = self
+        HomeTableView.delegate = self
     }
+    
     @objc private func refreshOfflineData(_ sender: Any) {
         // Fetch Weather Data
         self.oDataModel?.downloadOfflineStore{ error in
@@ -88,19 +93,22 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "OpenTicketCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: objectCellId, for: indexPath) as! FUIObjectTableViewCell
+        
         if indexPath.section == 0 {
             let singleOrder = salesOrders[indexPath.row]
             
-            cell.textLabel?.text = singleOrder.salesOrderID
-            cell.detailTextLabel?.text = (singleOrder.taxAmount?.toString())! + singleOrder.currencyCode!
-        }else{
+            cell.headlineText = singleOrder.salesOrderID
+            cell.subheadlineText = (singleOrder.taxAmount?.toString())! + singleOrder.currencyCode!
+        }
+        else {
             let  singleProduct = products[indexPath.row]
             
-            cell.textLabel?.text = "\(singleProduct.name!) \(singleProduct.categoryName!)"
-            cell.detailTextLabel?.text = (singleProduct.price?.toString())! + singleProduct.currencyCode!
-            
+            cell.headlineText = "\(singleProduct.name!) \(singleProduct.categoryName!)"
+            cell.subheadlineText = (singleProduct.price?.toString())! + singleProduct.currencyCode!
         }
+        
+        cell.accessoryType = .disclosureIndicator
         
         return cell
     }
