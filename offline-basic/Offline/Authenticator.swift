@@ -13,8 +13,8 @@ import SAPFoundation
 class Authenticator: NSObject, SAPURLSessionDelegate {
 
     struct Constants {
-        static let appID = "com.iossdk.gs"
-        static let connectionID = "com.sap.edm.sampleservice"
+        static let appID = "com.sap.tutorial.demoapp.SAPCodeChallenge"
+        static let connectionID = "com.sap.tutorial.demoapp.SAPCodeChallenge"
         private static let sapcpmsURLString = "https://hcpms-p2000179852trial.hanatrial.ondemand.com/"
         static let sapcpmsURL = URL(string: sapcpmsURLString)!
         static let appURL = sapcpmsURL.appendingPathComponent(connectionID)
