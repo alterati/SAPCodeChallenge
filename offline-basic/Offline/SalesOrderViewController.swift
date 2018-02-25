@@ -16,14 +16,14 @@ protocol SalesOrderViewControllerDelegate: class {
 class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITableViewDataSource, UITableViewDelegate {
     
     public var customers = [MyPrefixCustomer]()
-
+    
     @IBAction func updateStatus(_ sender: Any) {
         do {
             try oDataModel!.updateSalesOrderHeader(status: "Close", currentSalesOrder: salesOrder)
             self.setupObjectHeader()
             self.updateCloseButton()
             self.delegate?.didUpdateSalesOrder(salesOrder)
-
+            
         } catch  {
             let alert = UIAlertController(title: "Alert", message: "Updating the Status went south!", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`, handler: { _ in
@@ -35,7 +35,7 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
     @IBOutlet var SalesOrderTable: UITableView!
     @IBOutlet var closeButton: UIBarButtonItem!
     private var salesOrder: MyPrefixSalesOrderHeader!
-
+    
     private var products = [MyPrefixProduct]()
     private var oDataModel: ODataModel?
     var cellReuseIdentifier = "SalesOrderCell"
@@ -44,22 +44,22 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
     func initialize(oDataModel: ODataModel) {
         self.oDataModel = oDataModel
     }
-
+    
     /// delegate function from UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         automaticallyAdjustsScrollViewInsets = false
-
+        
         // Do any additional setup after loading the view
         oDataModel!.loadProdcutsForSalesOrder(salesOrder: salesOrder)  { resultProducts, error in
-
+            
             if let tempProducts = resultProducts {
                 self.products = tempProducts
-
+                
             }
             OperationQueue.main.addOperation {
                 self.SalesOrderTable.reloadData()
-
+                
             }
         }
         if (salesOrder != nil) {
@@ -71,7 +71,7 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
             if let currencyCode = salesOrder.currencyCode {
                 objectHeader.subheadlineLabel.text = "\(salesOrder.grossAmount!.toString()) \(currencyCode)"
             }
-
+            
             objectHeader.bodyLabel.text = salesOrder.lifeCycleStatusName
             objectHeader.descriptionLabel.text = "There is an issue but unfortunately we don't know it, just figure it out from the needed items..."
             
@@ -82,8 +82,8 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
             SalesOrderTable.separatorStyle = .none
             SalesOrderTable.estimatedRowHeight = 80
             SalesOrderTable.rowHeight = UITableViewAutomaticDimension
-      }
-
+        }
+        
         self.setupObjectHeader()
         self.updateCloseButton()
     }
@@ -117,8 +117,8 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
             self.navigationItem.rightBarButtonItems = [UIBarButtonItem]()
         }
     }
-
-
+    
+    
     /// Delegate function from UITableViewDataSource
     ///
     /// - Parameter tableView:
@@ -126,7 +126,7 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
     func numberOfSections(in _: UITableView) -> Int {
         return 1
     }
-
+    
     /// Delegate function from UITableViewDataSource
     ///
     /// - Parameters:
@@ -136,7 +136,7 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
     func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         return products.count // your number of cell here
     }
-
+    
     /// Delegate function from UITableViewDataSource
     ///
     /// - Parameters:
@@ -144,31 +144,37 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
     ///   - indexPath:
     /// - Returns: fills the cells with the Sales order
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath) as! FUIObjectTableViewCell
-        let singleProduct = products[indexPath.row]
-        cell.headlineText = singleProduct.categoryName
-        cell.subheadlineText = singleProduct.name!;
-
-        return cell
+        if (indexPath.row==0){
+            return tableView.dequeueReusableCell(withIdentifier: "ActionsCell")!
+        } else{
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath) as! FUIObjectTableViewCell
+            
+            let singleProduct = products[indexPath.row-1]
+            cell.headlineText = singleProduct.categoryName
+            cell.subheadlineText = singleProduct.name!;
+            
+            return cell
+        }
     }
-
-
+    
+    
     /// Handler to prepare the segue
     ///
     /// - Parameters:
     ///   - segue:
     ///   - sender:
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "showSalesOrderItem" {
-//            /// check email to implement this via sender
-////            let selectedRow = sender as! UITableViewCell
-////            let selectedIndexPath = SalesOrderTable.indexPath(for: selectedRow)!
-////            let order: MyPrefixProduct = products[selectedIndexPath.row]
-////            let itemViewControler = segue.destination as! SalesOrderItemViewController
-////            itemViewControler.initialize(oDataModel: oDataModel!)
-////            itemViewControler.loadSalesOrderItems(newItems: order)
-//        }
-//    }
+    //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    //        if segue.identifier == "showSalesOrderItem" {
+    //            /// check email to implement this via sender
+    ////            let selectedRow = sender as! UITableViewCell
+    ////            let selectedIndexPath = SalesOrderTable.indexPath(for: selectedRow)!
+    ////            let order: MyPrefixProduct = products[selectedIndexPath.row]
+    ////            let itemViewControler = segue.destination as! SalesOrderItemViewController
+    ////            itemViewControler.initialize(oDataModel: oDataModel!)
+    ////            itemViewControler.loadSalesOrderItems(newItems: order)
+    //        }
+    //    }
     /// loads the current salesorderItem
     ///
     /// - Parameter newItems: the current salesorderItem
@@ -195,7 +201,7 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
             
         }
         
-        if segue.identifier == "Map" {
+        if (segue.identifier == "Map" || segue.identifier == "Map2") {
             let mapViewController = segue.destination as! MapViewController
             mapViewController.salesOrders = [salesOrder]
             mapViewController.customers = self.customers
