@@ -79,10 +79,10 @@
             </objects>
             <point key="canvasLocation" x="734" y="-630"/>
         </scene>
-        <!--Tickets-->
+        <!--Ticket-->
         <scene sceneID="9pK-pB-0Ew">
             <objects>
-                <viewController id="bQb-TD-VfW" customClass="SalesOrderViewController" customModule="Offline" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="bQb-TD-VfW" userLabel="Ticket" customClass="SalesOrderViewController" customModule="Offline" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="b8k-nO-7BC"/>
                         <viewControllerLayoutGuide type="bottom" id="O8i-iL-bMw"/>
@@ -143,11 +143,12 @@
                     </navigationItem>
                     <connections>
                         <outlet property="SalesOrderTable" destination="ean-EY-87f" id="GPJ-rD-iJp"/>
+                        <segue destination="kwf-US-e00" kind="show" identifier="Equipment" id="LHI-HO-AOX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1JD-i9-ggS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1802" y="-852"/>
+            <point key="canvasLocation" x="1786" y="-898"/>
         </scene>
         <!--Details-->
         <scene sceneID="OJi-2G-9cu">
@@ -236,7 +237,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Vo-C5-hya" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1800.8" y="-141.67916041979012"/>
+            <point key="canvasLocation" x="1785" y="-133"/>
         </scene>
         <!--Start Screen View Controller-->
         <scene sceneID="sfD-Lo-3rn">
@@ -302,4 +303,7 @@
     <resources>
         <image name="sap.png" width="300" height="149"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="LHI-HO-AOX"/>
+    </inferredMetricsTieBreakers>
 </document>
