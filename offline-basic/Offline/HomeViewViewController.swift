@@ -19,6 +19,8 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, UITableV
     private var activityIndicator: UIActivityIndicatorView!
     private let refreshControl = UIRefreshControl()
     private var kpiHeader: FUIKPIHeader!
+    private var kpiViewOpen: FUIKPIView?
+    private var kpiViewPending: FUIKPIView?
     
     let objectCellId = "ProductCellID"
     
@@ -162,14 +164,23 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, UITableV
             if error != nil {
                 // handle error in future version
             }
+            
+            let kpiView1Metric = FUIKPIMetricItem(string: String(resultSalesOrders?.count ?? 0))
+            self.kpiViewOpen?.items = [kpiView1Metric]
+            
             if let tempSalesOrders = resultSalesOrders {
                 self.salesOrders = tempSalesOrders
             }
             OperationQueue.main.addOperation {
                 self.HomeTableView.reloadData()
-                
             }
         }
+        
+        self.oDataModel!.loadSalesClosedOrdersCount { (count, error) in
+            let kpiView2Metric = FUIKPIMetricItem(string: String(count))
+            self.kpiViewPending?.items = [kpiView2Metric]
+        }
+        
         self.oDataModel!.loadProdcuts{ resultProducts, error in
             
             if error != nil {
@@ -287,14 +298,16 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, UITableV
 
     func initExampleData() {
         let kpiView1 = FUIKPIView()
-        let kpiView1Metric = FUIKPIMetricItem(string: "2")
+        let kpiView1Metric = FUIKPIMetricItem(string: "-")
         kpiView1.items = [kpiView1Metric]
         kpiView1.captionlabel.text = "Pending"
+        self.kpiViewOpen = kpiView1
         
         let kpiView2 = FUIKPIView()
-        let kpiView2Metric = FUIKPIMetricItem(string: "5")
+        let kpiView2Metric = FUIKPIMetricItem(string: "-")
         kpiView2.items = [kpiView2Metric]
         kpiView2.captionlabel.text = "Completed"
+        kpiViewPending = kpiView2
         
         kpiHeader = FUIKPIHeader(items: [kpiView1, kpiView2])
     }
