@@ -105,29 +105,49 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
         return cell
     }
 
-    func tableView(_: UITableView, didSelectRowAt _: IndexPath) {
-    }
 
     /// Handler to prepare the segue
     ///
     /// - Parameters:
     ///   - segue:
     ///   - sender:
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showSalesOrderItem" {
-            /// check email to implement this via sender
-//            let selectedRow = sender as! UITableViewCell
-//            let selectedIndexPath = SalesOrderTable.indexPath(for: selectedRow)!
-//            let order: MyPrefixProduct = products[selectedIndexPath.row]
-//            let itemViewControler = segue.destination as! SalesOrderItemViewController
-//            itemViewControler.initialize(oDataModel: oDataModel!)
-//            itemViewControler.loadSalesOrderItems(newItems: order)
-        }
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "showSalesOrderItem" {
+//            /// check email to implement this via sender
+////            let selectedRow = sender as! UITableViewCell
+////            let selectedIndexPath = SalesOrderTable.indexPath(for: selectedRow)!
+////            let order: MyPrefixProduct = products[selectedIndexPath.row]
+////            let itemViewControler = segue.destination as! SalesOrderItemViewController
+////            itemViewControler.initialize(oDataModel: oDataModel!)
+////            itemViewControler.loadSalesOrderItems(newItems: order)
+//        }
+//    }
     /// loads the current salesorderItem
     ///
     /// - Parameter newItems: the current salesorderItem
     public func loadSalesOrderItems(newItem: MyPrefixSalesOrderHeader) {
         salesOrder = newItem
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "Equipment", sender: indexPath)
+    }
+    /// Handler to prepare the segue
+    ///
+    /// - Parameters:
+    ///   - segue:
+    ///   - sender:
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "Equipment" {
+            
+            let indexPath = sender as! IndexPath
+            let equipment: MyPrefixProduct = products[indexPath.row]
+            let sDetailControler = segue.destination as! DetailTableViewController
+            sDetailControler.initialize(oDataModel: oDataModel!)
+            sDetailControler.loadSalesOrderItem(item: equipment)
+            
+        }
+        
+    }
+
 }
