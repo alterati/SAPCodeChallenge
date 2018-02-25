@@ -56,14 +56,14 @@ class StartScreenViewController: UIViewController, SAPURLSessionDelegate {
                     {
                         /// the SAML Authentication was successfull load next screen
                         self.currentAuthenticationState = .succeeded
-                        self.performSegue(withIdentifier: "authenticationSuccessfull", sender: nil)
+                        self.performSegue(withIdentifier: "authenticationSuccessful", sender: nil)
                     }
                 }
             }
             break
         /// the SAML authentication was successful load next screen
         case .succeeded:
-            performSegue(withIdentifier: "authenticationSuccessfull", sender: nil)
+            performSegue(withIdentifier: "authenticationSuccessful", sender: nil)
             infoText.text = "Authentication was successful"
             break
         default:
@@ -76,11 +76,18 @@ class StartScreenViewController: UIViewController, SAPURLSessionDelegate {
     ///   - segue:
     ///   - sender:
     override func prepare(for segue: UIStoryboardSegue, sender _: Any?) {
-        if segue.identifier == "authenticationSuccessfull" {
+        if segue.identifier == "authenticationSuccessful" {
 
-            let view = segue.destination as! UINavigationController
-            let activeView = view.topViewController as! HomeViewViewController
+            let view = segue.destination as! UITabBarController
+            
+            let mainVC = view.viewControllers![0] as! UINavigationController
+            let activeView = mainVC.topViewController as! TicketsViewController
             activeView.initialize(oDataModel: oDataModel!)
+            
+            let stbyVC = view.viewControllers![1] as! UINavigationController
+            let standbyView = stbyVC.topViewController as! EquipmentViewController
+            standbyView.initialize(oDataModel: oDataModel!)
+
         }
     }
 }
