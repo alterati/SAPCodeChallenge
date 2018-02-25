@@ -16,6 +16,7 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, UITableV
     private var oDataModel: ODataModel?
     private var salesOrders = [MyPrefixSalesOrderHeader]()
     private var products = [MyPrefixProduct]()
+    private var customers = [MyPrefixCustomer]()
     private var activityIndicator: UIActivityIndicatorView!
     private let refreshControl = UIRefreshControl()
     private var kpiHeader: FUIKPIHeader!
@@ -161,6 +162,7 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, UITableV
         if segue.identifier == "Map" {
             let mapViewController = segue.destination as! MapViewController
             mapViewController.salesOrders = self.salesOrders
+            mapViewController.customers = self.customers
         }
         
     }
@@ -200,6 +202,14 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, UITableV
                 
             }
             self.hideActivityIndicator(self.activityIndicator)
+        }
+        
+        self.oDataModel!.loadCustomers { (customers, error) in
+            if error != nil {
+                // handle error in future version
+            }
+            
+            self.customers = customers!
         }
     }
     /*

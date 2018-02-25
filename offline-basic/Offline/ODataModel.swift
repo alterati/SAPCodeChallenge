@@ -348,4 +348,28 @@ class ODataModel {
             throw error
         }
     }
+    
+    /// loads all customers
+    func loadCustomers(completionHandler: @escaping (_ result: [MyPrefixCustomer]?, _ error: String?) -> Void) {
+        
+        let query = DataQuery()
+        if isOfflineStoreOpened {
+            /// the same query as it was set up for the online use can be fired against the initialised the offline Odata Service
+            offlineService.fetchCustomers(matching: query) { customers, error in
+                if let error = error {
+                    completionHandler(nil, "Loading Sales Orders failed \(error.localizedDescription)")
+                    return
+                }
+                completionHandler(customers!, nil)
+            }
+        } else {
+            espmOdataService.fetchCustomers(matching: query) { customers, error in
+                if let error = error {
+                    completionHandler(nil, "Loading Sales Orders failed \(error.localizedDescription)")
+                    return
+                }
+                completionHandler(customers!, nil)
+            }
+        }
+    }
 }

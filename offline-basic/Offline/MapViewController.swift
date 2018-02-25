@@ -11,6 +11,7 @@ class MapViewController: UIViewController {
     
     @IBOutlet var mapView: MKMapView!
     var salesOrders: [MyPrefixSalesOrderHeader]?
+    var customers: [MyPrefixCustomer]?
     
     // set the location to the SAP Headquarters: Dietmar-Hopp-Allee 16, 69190 Walldorf DE
     let location = CLLocationCoordinate2D(latitude: 49.293843, longitude: 8.641369)
@@ -21,12 +22,28 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = CLLocationCoordinate2DMake(location.latitude, location.longitude)
-        annotation.title = "SAP SE"
+        self.loadLocations()
         
-        mapView.addAnnotation(annotation)
+        // center map
+        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location, latitudinalMeters, longitudinalMeters)
+        mapView.setRegion(coordinateRegion, animated: true)
+    }
+    
+    private func loadLocations() {
+        self.salesOrders?.forEach({ (salesOrder) in
+            self.loadLocationForSalesOrder(salesOrder)
+        })
+    }
+    
+    private func loadLocationForSalesOrder(_ salesOrder: MyPrefixSalesOrderHeader) {
+        let matchingCustomers = self.customers?.filter { $0.customerID == salesOrder.customerID }
         
+        guard let customer = matchingCustomers?.first else { return }
+        
+        self.addAnnotationForCustomer(customer)
+    }
+    
+    private func addAnnotationForCustomer(_ customer: MyPrefixCustomer) {
         if #available(iOS 11.0, *) {
             
             // the FUIMarkerAnnotationView is only available in iOS 11
@@ -43,11 +60,33 @@ class MapViewController: UIViewController {
             mapView.register(FioriMarker.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         }
         
-        // center map
-        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location,
-                                                                  latitudinalMeters,
-                                                                  longitudinalMeters)
-        mapView.setRegion(coordinateRegion, animated: true)
+        let street = customer.street ?? ""
+        let city = customer.city ?? ""
+        let country = customer.country ?? ""
+        let address = street + ", " + city + ", " + country // Sample: "1 Infinite Loop, CA, USA"
+        
+        let geocoder: CLGeocoder = CLGeocoder()
+        geocoder.geocodeAddressString(address) { (placemarks, error) in
+            guard let placemarks = placemarks else { return }
+            
+            if (placemarks.count > 0) {
+                let topResult = placemarks.first!
+                let placemark: MKPlacemark = MKPlacemark(placemark: topResult)
+                
+                self.mapView.addAnnotation(placemark)
+                
+                if let coordinate = placemark.location?.coordinate {
+                    let annotation = MKPointAnnotation()
+                    annotation.coordinate = CLLocationCoordinate2DMake(coordinate.latitude, coordinate.longitude)
+                    annotation.title = customer.firstName ?? "Unknown customer"
+                    
+                    self.mapView.addAnnotation(annotation)
+                }
+            }
+            
+        }
+        
+        
     }
 }
 
