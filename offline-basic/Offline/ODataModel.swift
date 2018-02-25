@@ -169,6 +169,32 @@ class ODataModel {
     ///
     /// - Returns: list of sales orders
     /// - Throws: error
+    func loadSalesClosedOrdersCount(completionHandler: @escaping (_ result: Int, _ error: String?) -> Void) {
+        
+        let query = DataQuery().orderBy(MyPrefixSalesOrderHeader.salesOrderID).expand(MyPrefixSalesOrderHeader.items).expand(MyPrefixSalesOrderHeader.customerDetails).filter(MyPrefixSalesOrderHeader.lifeCycleStatus.equal("C"))
+        if isOfflineStoreOpened {
+            /// the same query as it was set up for the online use can be fired against the initialised the offline Odata Service
+            offlineService.fetchSalesOrderHeaders(matching: query) { salesOrders, error in
+                if let error = error {
+                    completionHandler(0, "Loading Sales Orders failed \(error.localizedDescription)")
+                    return
+                }
+                completionHandler(salesOrders?.count ?? 0, nil)
+            }
+        } else {
+            espmOdataService.fetchSalesOrderHeaders(matching: query) { salesOrders, error in
+                if let error = error {
+                    completionHandler(0, "Loading Sales Orders failed \(error.localizedDescription)")
+                    return
+                }
+                completionHandler(salesOrders?.count ?? 0, nil)
+            }
+        }
+    }
+    /// loads all sales orders and their items
+    ///
+    /// - Returns: list of sales orders
+    /// - Throws: error
     func loadProdcuts(completionHandler: @escaping (_ result: [MyPrefixProduct]?, _ error: String?) -> Void) {
         
         let query = DataQuery().orderBy(MyPrefixProduct.productID)
