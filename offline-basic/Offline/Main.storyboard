@@ -118,7 +118,6 @@
             </objects>
             <point key="canvasLocation" x="1785" y="-1572"/>
         </scene>
-        <!--Tickets-->
         <!--Ticket-->
         <scene sceneID="9pK-pB-0Ew">
             <objects>
@@ -175,7 +174,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Tickets" id="zaY-TM-G0C" userLabel="Tickets">
-                        <barButtonItem key="rightBarButtonItem" title="close" id="1wm-cA-hbM" userLabel="close">
+                        <barButtonItem key="rightBarButtonItem" title="Close" id="1wm-cA-hbM" userLabel="close">
                             <connections>
                                 <action selector="updateStatus:" destination="bQb-TD-VfW" id="2qG-rD-1e0"/>
                             </connections>
@@ -183,6 +182,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="SalesOrderTable" destination="ean-EY-87f" id="GPJ-rD-iJp"/>
+                        <outlet property="closeButton" destination="1wm-cA-hbM" id="5G0-va-T5S"/>
                         <segue destination="kwf-US-e00" kind="show" identifier="Equipment" id="LHI-HO-AOX"/>
                     </connections>
                 </viewController>
