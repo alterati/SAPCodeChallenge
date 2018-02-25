@@ -14,6 +14,7 @@ class TicketsViewController: UIViewController, URLSessionTaskDelegate, UITableVi
     @IBOutlet weak var HomeTableView: UITableView!
     private var oDataModel: ODataModel?
     private var salesOrders = [MyPrefixSalesOrderHeader]()
+    private var customers = [MyPrefixCustomer]()
     private var products = [MyPrefixProduct]()
     private var activityIndicator: UIActivityIndicatorView!
     private let refreshControl = UIRefreshControl()
@@ -124,6 +125,12 @@ class TicketsViewController: UIViewController, URLSessionTaskDelegate, UITableVi
             sOviewControler.loadSalesOrderItems(newItem: order)
             
         }
+        
+        if segue.identifier == "Map" {
+            let mapViewController = segue.destination as! MapViewController
+            mapViewController.salesOrders = self.salesOrders
+            mapViewController.customers = self.customers
+        }
     }
     
     
@@ -149,6 +156,13 @@ class TicketsViewController: UIViewController, URLSessionTaskDelegate, UITableVi
         self.oDataModel!.loadSalesClosedOrdersCount { (count, error) in
             let kpiView2Metric = FUIKPIMetricItem(string: String(count))
             self.kpiViewPending?.items = [kpiView2Metric]
+        }
+        self.oDataModel!.loadCustomers { (customers, error) in
+            if error != nil {
+                // handle error in future version
+            }
+            
+            self.customers = customers!
         }
     }
     

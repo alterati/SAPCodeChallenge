@@ -158,13 +158,6 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, UITableV
             sDetailControler.loadSalesOrderItem(item: equipment)
             
         }
-        
-        if segue.identifier == "Map" {
-            let mapViewController = segue.destination as! MapViewController
-            mapViewController.salesOrders = self.salesOrders
-            mapViewController.customers = self.customers
-        }
-        
     }
     private func loadData() {
         self.oDataModel!.loadSalesOpenOrders { resultSalesOrders, error in

@@ -50,7 +50,13 @@
                             <constraint firstItem="Nc2-z2-3DX" firstAttribute="top" secondItem="k1Q-Iw-GyM" secondAttribute="bottom" constant="8" symbolic="YES" id="vaO-ul-f7H"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Tickets" id="uRm-BT-hjq"/>
+                    <navigationItem key="navigationItem" title="Tickets" id="uRm-BT-hjq">
+                        <barButtonItem key="rightBarButtonItem" title="Map" id="4SF-Nw-aiD">
+                            <connections>
+                                <segue destination="B9E-Cq-lVc" kind="show" identifier="Map" id="6Zn-2A-uPP"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="HomeTableView" destination="k1Q-Iw-GyM" id="Qge-SW-v0S"/>
                         <segue destination="bQb-TD-VfW" kind="show" identifier="Tickets" id="94F-zl-kJ3"/>
@@ -224,11 +230,6 @@
                                 <action selector="resetData:" destination="SKv-7c-vlc" id="oid-b2-g3Y"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Map" id="qtE-yc-exL">
-                            <connections>
-                                <segue destination="B9E-Cq-lVc" kind="show" identifier="Map" id="JLm-O9-MY2"/>
-                            </connections>
-                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="HomeTableView" destination="aUA-Xb-XkS" id="3QI-tw-Swd"/>
@@ -287,7 +288,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ean-EY-87f" userLabel="SalesOrder Table">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SalesOrderCell" textLabel="tV0-is-Qdj" detailTextLabel="XNB-ZF-6BX" style="IBUITableViewCellStyleSubtitle" id="yNH-il-hz5">
@@ -359,7 +360,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="IoK-je-2yX">
-                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DetailCell" id="OCJ-ex-zyN" customClass="EditableCell" customModule="Offline" customModuleProvider="target">
@@ -503,7 +504,7 @@
         <image name="sap.png" width="300" height="149"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="X9q-RB-f4L"/>
-        <segue reference="gFU-kn-vl3"/>
+        <segue reference="mRg-K4-uhr"/>
+        <segue reference="94F-zl-kJ3"/>
     </inferredMetricsTieBreakers>
 </document>
