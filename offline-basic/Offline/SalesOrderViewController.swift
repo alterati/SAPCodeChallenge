@@ -14,6 +14,8 @@ protocol SalesOrderViewControllerDelegate: class {
 }
 
 class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITableViewDataSource, UITableViewDelegate {
+    
+    public var customers = [MyPrefixCustomer]()
 
     @IBAction func updateStatus(_ sender: Any) {
         do {
@@ -193,6 +195,11 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
             
         }
         
+        if segue.identifier == "Map" {
+            let mapViewController = segue.destination as! MapViewController
+            mapViewController.salesOrders = [salesOrder]
+            mapViewController.customers = self.customers
+        }
+        
     }
-
 }

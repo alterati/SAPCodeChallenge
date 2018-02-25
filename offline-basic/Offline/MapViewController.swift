@@ -79,8 +79,13 @@ class MapViewController: UIViewController {
                     let annotation = MKPointAnnotation()
                     annotation.coordinate = CLLocationCoordinate2DMake(coordinate.latitude, coordinate.longitude)
                     annotation.title = customer.firstName ?? "Unknown customer"
-                    
                     self.mapView.addAnnotation(annotation)
+                    
+                    var region: MKCoordinateRegion = self.mapView.region
+                    region.center.latitude = coordinate.latitude
+                    region.center.longitude = coordinate.longitude
+                    region.span = MKCoordinateSpanMake(0.5, 0.5)
+                    self.mapView.setRegion(region, animated: true)
                 }
             }
             

@@ -8,6 +8,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -50,13 +51,7 @@
                             <constraint firstItem="Nc2-z2-3DX" firstAttribute="top" secondItem="k1Q-Iw-GyM" secondAttribute="bottom" constant="8" symbolic="YES" id="vaO-ul-f7H"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Tickets" id="uRm-BT-hjq">
-                        <barButtonItem key="rightBarButtonItem" title="Map" id="4SF-Nw-aiD">
-                            <connections>
-                                <segue destination="B9E-Cq-lVc" kind="show" identifier="Map" id="6Zn-2A-uPP"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Tickets" id="uRm-BT-hjq"/>
                     <connections>
                         <outlet property="HomeTableView" destination="k1Q-Iw-GyM" id="Qge-SW-v0S"/>
                         <segue destination="bQb-TD-VfW" kind="show" identifier="Tickets" id="94F-zl-kJ3"/>
@@ -273,7 +268,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3ww-9T-zUs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1785" y="-1572"/>
+            <point key="canvasLocation" x="3905" y="-1106"/>
         </scene>
         <!--Ticket-->
         <scene sceneID="9pK-pB-0Ew">
@@ -331,11 +326,18 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Tickets" id="zaY-TM-G0C" userLabel="Tickets">
-                        <barButtonItem key="rightBarButtonItem" title="Close" id="1wm-cA-hbM" userLabel="close">
-                            <connections>
-                                <action selector="updateStatus:" destination="bQb-TD-VfW" id="2qG-rD-1e0"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem title="Map" id="sev-V6-QbU">
+                                <connections>
+                                    <segue destination="B9E-Cq-lVc" kind="show" identifier="Map" id="8Kj-jP-uc9"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Close" id="1wm-cA-hbM" userLabel="close">
+                                <connections>
+                                    <action selector="updateStatus:" destination="bQb-TD-VfW" id="2qG-rD-1e0"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="SalesOrderTable" destination="ean-EY-87f" id="GPJ-rD-iJp"/>

@@ -124,6 +124,7 @@ class TicketsViewController: UIViewController, URLSessionTaskDelegate, UITableVi
             sOviewControler.initialize(oDataModel: oDataModel!)
             sOviewControler.loadSalesOrderItems(newItem: order)
             sOviewControler.delegate = self
+            sOviewControler.customers = self.customers
             
         }
         
