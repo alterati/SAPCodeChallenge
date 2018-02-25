@@ -134,7 +134,7 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
     ///   - section:
     /// - Returns: returns the number of rows the table should have
     func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
-        return products.count // your number of cell here
+        return products.count+1 // your number of cell here
     }
     
     /// Delegate function from UITableViewDataSource
@@ -194,18 +194,23 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
         if segue.identifier == "Equipment" {
             
             let indexPath = sender as! IndexPath
-            let equipment: MyPrefixProduct = products[indexPath.row]
+            let equipment: MyPrefixProduct = products[(indexPath.row-1)]
             let sDetailControler = segue.destination as! DetailTableViewController
             sDetailControler.initialize(oDataModel: oDataModel!)
             sDetailControler.loadSalesOrderItem(item: equipment)
             
         }
         
-        if (segue.identifier == "Map" || segue.identifier == "Map2") {
+        if (segue.identifier == "Map") {
             let mapViewController = segue.destination as! MapViewController
             mapViewController.salesOrders = [salesOrder]
             mapViewController.customers = self.customers
         }
-        
+        if ( segue.identifier == "Map2") {
+            let mapViewController = segue.destination as! MapViewController
+            mapViewController.salesOrders = [salesOrder]
+            mapViewController.customers = self.customers
+        }
+
     }
 }

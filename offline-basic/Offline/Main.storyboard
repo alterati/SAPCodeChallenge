@@ -8,7 +8,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -317,23 +316,27 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mjg-WS-qlc">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mjg-WS-qlc">
                                                     <rect key="frame" x="321" y="6" width="39" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" title="Close"/>
                                                     <connections>
                                                         <action selector="updateStatus:" destination="bQb-TD-VfW" eventType="touchUpInside" id="9Ow-iv-NWw"/>
                                                     </connections>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dFq-Oc-J1I">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dFq-Oc-J1I">
                                                     <rect key="frame" x="15" y="6" width="96" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" title="Show On Map"/>
                                                     <connections>
-                                                        <segue destination="B9E-Cq-lVc" kind="show" identifier="AnotherMap" id="ZAf-Tv-2OF"/>
+                                                        <segue destination="B9E-Cq-lVc" kind="show" identifier="Map2" id="ZAf-Tv-2OF"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="mjg-WS-qlc" firstAttribute="centerY" secondItem="w3Q-fI-DFH" secondAttribute="centerY" id="1uX-z1-qKh"/>
+                                                <constraint firstAttribute="trailing" secondItem="mjg-WS-qlc" secondAttribute="trailing" constant="15" id="6W7-G9-xzg"/>
+                                                <constraint firstItem="dFq-Oc-J1I" firstAttribute="centerY" secondItem="w3Q-fI-DFH" secondAttribute="centerY" id="WgG-BO-uxZ"/>
+                                                <constraint firstItem="dFq-Oc-J1I" firstAttribute="leading" secondItem="w3Q-fI-DFH" secondAttribute="leading" constant="15" id="c0N-7l-3ux"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
@@ -351,23 +354,9 @@
                             <constraint firstItem="ean-EY-87f" firstAttribute="leading" secondItem="ZIV-RM-Y8c" secondAttribute="leading" id="e14-Aj-I26"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Tickets" id="zaY-TM-G0C" userLabel="Tickets">
-                        <rightBarButtonItems>
-                            <barButtonItem title="Map" id="sev-V6-QbU">
-                                <connections>
-                                    <segue destination="B9E-Cq-lVc" kind="show" identifier="Map" id="8Kj-jP-uc9"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="Close" id="1wm-cA-hbM" userLabel="close">
-                                <connections>
-                                    <action selector="updateStatus:" destination="bQb-TD-VfW" id="2qG-rD-1e0"/>
-                                </connections>
-                            </barButtonItem>
-                        </rightBarButtonItems>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Tickets" id="zaY-TM-G0C" userLabel="Tickets"/>
                     <connections>
                         <outlet property="SalesOrderTable" destination="ean-EY-87f" id="GPJ-rD-iJp"/>
-                        <outlet property="closeButton" destination="1wm-cA-hbM" id="5G0-va-T5S"/>
                         <segue destination="kwf-US-e00" kind="show" identifier="Equipment" id="LHI-HO-AOX"/>
                     </connections>
                 </viewController>
@@ -534,6 +523,5 @@
     <inferredMetricsTieBreakers>
         <segue reference="LHI-HO-AOX"/>
         <segue reference="94F-zl-kJ3"/>
-        <segue reference="ZAf-Tv-2OF"/>
     </inferredMetricsTieBreakers>
 </document>
