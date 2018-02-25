@@ -37,6 +37,8 @@ class ODataModel {
         try! offlineODataProvider.add(definingQuery: OfflineODataDefiningQuery(name: CollectionType.myPrefixSalesOrderItems.rawValue, query: "/\(CollectionType.myPrefixSalesOrderItems.rawValue)", automaticallyRetrievesStreams: false))
         try! offlineODataProvider.add(definingQuery: OfflineODataDefiningQuery(name:
             CollectionType.myPrefixProducts.rawValue, query: "/\(CollectionType.myPrefixProducts.rawValue)", automaticallyRetrievesStreams: false))
+        try! offlineODataProvider.add(definingQuery: OfflineODataDefiningQuery(name:
+            CollectionType.myPrefixStock.rawValue, query: "/\(CollectionType.myPrefixStock.rawValue)", automaticallyRetrievesStreams: false))
         offlineService = MyServiceClass(provider: offlineODataProvider)
     }
 
@@ -197,7 +199,7 @@ class ODataModel {
     /// - Throws: error
     func loadProdcuts(completionHandler: @escaping (_ result: [MyPrefixProduct]?, _ error: String?) -> Void) {
         
-        let query = DataQuery().orderBy(MyPrefixProduct.productID)
+        let query = DataQuery().orderBy(MyPrefixProduct.productID).expand(MyPrefixProduct.stockDetails)
         if isOfflineStoreOpened {
             /// the same query as it was set up for the online use can be fired against the initialised the offline Odata Service
             offlineService.fetchProducts(matching: query) { products, error in

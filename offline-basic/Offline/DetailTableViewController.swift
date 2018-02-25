@@ -10,6 +10,8 @@ import SAPFiori
 
 class DetailTableViewController: UIViewController, Notifier, URLSessionTaskDelegate, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
 
+    private let objectHeader = FUIObjectHeader()
+    
     private var detailItem: MyPrefixProduct!
     private var oDataModel: ODataModel?
 
@@ -27,18 +29,17 @@ class DetailTableViewController: UIViewController, Notifier, URLSessionTaskDeleg
         if (detailItem != nil) {
             guard let currencyCode = detailItem.currencyCode else { return }
             
-            let objectHeader = FUIObjectHeader()
             objectHeader.headlineLabel.text = detailItem.name
             objectHeader.subheadlineLabel.text = "\(detailItem.price!.toString()) \(currencyCode)"
             objectHeader.footnoteLabel.text = detailItem.categoryName
             objectHeader.descriptionLabel.text = detailItem.longDescription
+            objectHeader.statusText = "Stock: 3"
             
             objectHeader.statusLabel.text = detailItem.supplierID
             DetailTable.tableHeaderView = objectHeader
-            
         }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
