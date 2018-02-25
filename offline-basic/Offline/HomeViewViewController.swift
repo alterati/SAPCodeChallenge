@@ -143,6 +143,7 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, UITableV
             let indexPath = sender as! IndexPath
             let order: MyPrefixSalesOrderHeader = salesOrders[indexPath.row]
             let sOviewControler = segue.destination as! SalesOrderViewController
+            sOviewControler.delegate = self
             sOviewControler.initialize(oDataModel: oDataModel!)
             sOviewControler.loadSalesOrderItems(newItem: order)
             
@@ -155,6 +156,11 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, UITableV
             sDetailControler.initialize(oDataModel: oDataModel!)
             sDetailControler.loadSalesOrderItem(item: equipment)
             
+        }
+        
+        if segue.identifier == "Map" {
+            let mapViewController = segue.destination as! MapViewController
+            mapViewController.salesOrders = self.salesOrders
         }
         
     }
@@ -312,4 +318,10 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, UITableV
         kpiHeader = FUIKPIHeader(items: [kpiView1, kpiView2])
     }
 
+}
+
+extension HomeViewViewController: SalesOrderViewControllerDelegate {
+    func didUpdateSalesOrder(_ salesOrder: MyPrefixSalesOrderHeader) {
+        self.loadData()
+    }
 }

@@ -9,11 +9,18 @@ import SAPFoundation
 import UIKit
 import SAPFiori
 
+protocol SalesOrderViewControllerDelegate: class {
+    func didUpdateSalesOrder(_ salesOrder: MyPrefixSalesOrderHeader)
+}
+
 class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITableViewDataSource, UITableViewDelegate {
 
     @IBAction func updateStatus(_ sender: Any) {
         do {
             try oDataModel!.updateSalesOrderHeader(status: "Close", currentSalesOrder: salesOrder)
+            self.setupObjectHeader()
+            self.updateCloseButton()
+            self.delegate?.didUpdateSalesOrder(salesOrder)
 
         } catch  {
             let alert = UIAlertController(title: "Alert", message: "Updating the Status went south!", preferredStyle: .alert)
@@ -24,11 +31,14 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
         }
     }
     @IBOutlet var SalesOrderTable: UITableView!
+    @IBOutlet var closeButton: UIBarButtonItem!
     private var salesOrder: MyPrefixSalesOrderHeader!
 
     private var products = [MyPrefixProduct]()
     private var oDataModel: ODataModel?
     var cellReuseIdentifier = "SalesOrderCell"
+    weak var delegate: SalesOrderViewControllerDelegate?
+    
     func initialize(oDataModel: ODataModel) {
         self.oDataModel = oDataModel
     }
@@ -55,7 +65,10 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
             //        objectHeader.detailImageView.image = #imageLiteral(resourceName: "ProfilePic")
             
             objectHeader.headlineLabel.text = salesOrder.salesOrderID
-            objectHeader.subheadlineLabel.text = "\(salesOrder.grossAmount!.toString()) \(salesOrder.currencyCode)"
+            
+            if let currencyCode = salesOrder.currencyCode {
+                objectHeader.subheadlineLabel.text = "\(salesOrder.grossAmount!.toString()) \(currencyCode)"
+            }
 
             objectHeader.bodyLabel.text = salesOrder.lifeCycleStatusName
             objectHeader.descriptionLabel.text = "There is an issue but unfortunately we don't know it, just figure it out from the needed items..."
@@ -69,6 +82,38 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
             SalesOrderTable.rowHeight = UITableViewAutomaticDimension
       }
 
+        self.setupObjectHeader()
+        self.updateCloseButton()
+    }
+    
+    private func setupObjectHeader() {
+        if (salesOrder != nil) {
+            let objectHeader = FUIObjectHeader()
+            //        objectHeader.detailImageView.image = #imageLiteral(resourceName: "ProfilePic")
+            
+            objectHeader.headlineLabel.text = salesOrder.salesOrderID
+            
+            if let currencyCode = salesOrder.currencyCode {
+                objectHeader.subheadlineLabel.text = "\(salesOrder.grossAmount!.toString()) \(currencyCode)"
+            }
+            
+            objectHeader.bodyLabel.text = salesOrder.lifeCycleStatusName
+            objectHeader.descriptionLabel.text = "There is an issue but unfortunately we don't know it, just figure it out from the needed items..."
+            
+            objectHeader.statusLabel.text = "High"
+            SalesOrderTable.tableHeaderView = objectHeader
+            SalesOrderTable.register(FUIObjectTableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
+            SalesOrderTable.backgroundColor = UIColor.preferredFioriColor(forStyle: .backgroundBase)
+            SalesOrderTable.separatorStyle = .none
+            SalesOrderTable.estimatedRowHeight = 80
+            SalesOrderTable.rowHeight = UITableViewAutomaticDimension
+        }
+    }
+    
+    private func updateCloseButton() {
+        if self.salesOrder.lifeCycleStatus == "C" {
+            self.navigationItem.rightBarButtonItems = [UIBarButtonItem]()
+        }
     }
 
 
