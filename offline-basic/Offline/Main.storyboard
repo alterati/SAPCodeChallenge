@@ -63,9 +63,14 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="SAP@MWC" id="dfB-d6-RWI">
-                        <barButtonItem key="rightBarButtonItem" title="resetData" id="aCg-TF-1gE">
+                        <barButtonItem key="leftBarButtonItem" title="resetData" id="aCg-TF-1gE">
                             <connections>
                                 <action selector="resetData:" destination="SKv-7c-vlc" id="oid-b2-g3Y"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Map" id="qtE-yc-exL">
+                            <connections>
+                                <segue destination="B9E-Cq-lVc" kind="show" identifier="Map" id="JLm-O9-MY2"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -78,6 +83,40 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FUP-HK-6xo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="734" y="-630"/>
+        </scene>
+        <!--Map View Controller-->
+        <scene sceneID="G2d-VN-urO">
+            <objects>
+                <viewController id="B9E-Cq-lVc" customClass="MapViewController" customModule="Offline" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="NPj-CW-qD0"/>
+                        <viewControllerLayoutGuide type="bottom" id="a8L-az-hQx"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="g53-zA-nI2">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="8Rg-dS-lNa">
+                                <rect key="frame" x="0.0" y="64" width="375" height="539"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="8Rg-dS-lNa" firstAttribute="leading" secondItem="g53-zA-nI2" secondAttribute="leading" id="2FI-Hp-9IM"/>
+                            <constraint firstItem="8Rg-dS-lNa" firstAttribute="top" secondItem="NPj-CW-qD0" secondAttribute="bottom" id="4ha-HF-aOd"/>
+                            <constraint firstItem="8Rg-dS-lNa" firstAttribute="centerX" secondItem="g53-zA-nI2" secondAttribute="centerX" id="7AI-W6-Cjv"/>
+                            <constraint firstAttribute="trailing" secondItem="8Rg-dS-lNa" secondAttribute="trailing" id="Cu4-Iw-dUv"/>
+                            <constraint firstItem="8Rg-dS-lNa" firstAttribute="centerY" secondItem="g53-zA-nI2" secondAttribute="centerY" id="hmp-lM-VhG"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="mapView" destination="8Rg-dS-lNa" id="vKQ-XH-K5G"/>
+                        <outlet property="view" destination="g53-zA-nI2" id="Che-68-PUn"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3ww-9T-zUs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1785" y="-1572"/>
         </scene>
         <!--Tickets-->
         <scene sceneID="9pK-pB-0Ew">

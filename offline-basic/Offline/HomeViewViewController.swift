@@ -157,6 +157,11 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, UITableV
             
         }
         
+        if segue.identifier == "Map" {
+            let mapViewController = segue.destination as! MapViewController
+            mapViewController.salesOrders = self.salesOrders
+        }
+        
     }
     private func loadData() {
         self.oDataModel!.loadSalesOpenOrders { resultSalesOrders, error in

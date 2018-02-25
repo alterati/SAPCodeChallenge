@@ -39,6 +39,8 @@ class ODataModel {
             CollectionType.myPrefixProducts.rawValue, query: "/\(CollectionType.myPrefixProducts.rawValue)", automaticallyRetrievesStreams: false))
         try! offlineODataProvider.add(definingQuery: OfflineODataDefiningQuery(name:
             CollectionType.myPrefixStock.rawValue, query: "/\(CollectionType.myPrefixStock.rawValue)", automaticallyRetrievesStreams: false))
+        try! offlineODataProvider.add(definingQuery: OfflineODataDefiningQuery(name:
+            CollectionType.myPrefixCustomers.rawValue, query: "/\(CollectionType.myPrefixCustomers.rawValue)", automaticallyRetrievesStreams: false))
         offlineService = MyServiceClass(provider: offlineODataProvider)
     }
 
