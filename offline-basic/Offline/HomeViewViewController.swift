@@ -108,7 +108,7 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, UITableV
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0:
-            return "openTickets"
+            return "Open Tickets"
         default:
             return "Equipment"
         }
@@ -281,26 +281,14 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, UITableV
         let kpiView1 = FUIKPIView()
         let kpiView1Metric = FUIKPIMetricItem(string: "2")
         kpiView1.items = [kpiView1Metric]
-        kpiView1.captionlabel.text = "Customers Assisted"
+        kpiView1.captionlabel.text = "Pending"
         
         let kpiView2 = FUIKPIView()
         let kpiView2Metric = FUIKPIMetricItem(string: "5")
         kpiView2.items = [kpiView2Metric]
-        kpiView2.captionlabel.text = "Still in Store Waiting For Checkout"
+        kpiView2.captionlabel.text = "Completed"
         
-        let kpiView3 = FUIKPIView()
-        let kpiView3Metric = FUIKPIMetricItem(string: "4")
-        kpiView3.items = [kpiView3Metric]
-        kpiView3.captionlabel.text = "Orders"
-        
-        let kpiView4 = FUIKPIView()
-        let kpiView4Unit = FUIKPIUnitItem(string: "$")
-        let kpiView4Metric = FUIKPIMetricItem(string: "294")
-        kpiView4.items = [kpiView4Unit, kpiView4Metric]
-        kpiView4.captionlabel.text = "Average Spend Per Calendar Year"
-        kpiView4.captionlabel.numberOfLines = 2
-        
-        kpiHeader = FUIKPIHeader(items: [kpiView1, kpiView2, kpiView3, kpiView4])
+        kpiHeader = FUIKPIHeader(items: [kpiView1, kpiView2])
     }
 
 }
