@@ -28,7 +28,7 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
 
     private var products = [MyPrefixProduct]()
     private var oDataModel: ODataModel?
-
+    var cellReuseIdentifier = "SalesOrderCell"
     func initialize(oDataModel: ODataModel) {
         self.oDataModel = oDataModel
     }
@@ -56,16 +56,21 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
             
             objectHeader.headlineLabel.text = salesOrder.salesOrderID
             objectHeader.subheadlineLabel.text = "\(salesOrder.grossAmount!.toString()) \(salesOrder.currencyCode)"
-            //        objectHeader.tags = [FUITag(title: "Started"), FUITag(title: "PM01"), FUITag(title: "103-Repair")]
+
             objectHeader.bodyLabel.text = salesOrder.lifeCycleStatusName
-            objectHeader.descriptionLabel.text = "this is the long text which descripes the issue if there is one"
+            objectHeader.descriptionLabel.text = "There is an issue but unfortunately we don't know it, just figure it out from the needed items..."
             
             objectHeader.statusLabel.text = "High"
             SalesOrderTable.tableHeaderView = objectHeader
-
-        }
+            SalesOrderTable.register(FUIObjectTableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
+            SalesOrderTable.backgroundColor = UIColor.preferredFioriColor(forStyle: .backgroundBase)
+            SalesOrderTable.separatorStyle = .none
+            SalesOrderTable.estimatedRowHeight = 80
+            SalesOrderTable.rowHeight = UITableViewAutomaticDimension
+      }
 
     }
+
 
     /// Delegate function from UITableViewDataSource
     ///
@@ -92,10 +97,10 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
     ///   - indexPath:
     /// - Returns: fills the cells with the Sales order
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SalesOrderCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath) as! FUIObjectTableViewCell
         let singleProduct = products[indexPath.row]
-        cell.textLabel?.text = singleProduct.productID
-        cell.detailTextLabel?.text = (singleProduct.name! + " - " + singleProduct.categoryName!)
+        cell.headlineText = singleProduct.categoryName
+        cell.subheadlineText = singleProduct.name!;
 
         return cell
     }
