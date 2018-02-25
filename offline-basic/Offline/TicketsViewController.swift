@@ -123,6 +123,7 @@ class TicketsViewController: UIViewController, URLSessionTaskDelegate, UITableVi
             let sOviewControler = segue.destination as! SalesOrderViewController
             sOviewControler.initialize(oDataModel: oDataModel!)
             sOviewControler.loadSalesOrderItems(newItem: order)
+            sOviewControler.delegate = self
             
         }
         
@@ -184,4 +185,10 @@ class TicketsViewController: UIViewController, URLSessionTaskDelegate, UITableVi
     }
     
     
+}
+
+extension TicketsViewController: SalesOrderViewControllerDelegate {
+    func didUpdateSalesOrder(_ salesOrder: MyPrefixSalesOrderHeader) {
+        self.refreshOfflineData(self)
+    }
 }
